@@ -49,15 +49,14 @@ public class Login {
 
     /**
      * Method to check cell phone number formatting.
-     * Regex source adapted from standard international phone validation patterns:
-     * Reference: Regular Expressions Cookbook, 2nd Edition (Ref: https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/)
+     * Ensures it starts with '+' and has a maximum length of 10 characters.
      */
     public boolean checkCellPhoneNumber(String cellPhoneNumber) {
         if (cellPhoneNumber == null) {
             return false;
         }
-        String regex = "^\\+\\d{10,13}$";
-        return Pattern.matches(regex, cellPhoneNumber);
+        String regex = "^\\+\\d{1,9}$";
+        return Pattern.matches(regex, cellPhoneNumber) && cellPhoneNumber.length() <= 10;
     }
 
     // Register user method incorporating username, password, cell phone, and names

@@ -36,7 +36,7 @@ public class LoginTest {
     @Test
     public void testCheckCellPhoneNumberValid() {
         Login login = new Login();
-        assertTrue(login.checkCellPhoneNumber("+27838968976"));
+        assertTrue(login.checkCellPhoneNumber("+278389"));
     }
 
     @Test
@@ -48,35 +48,35 @@ public class LoginTest {
     @Test
     public void testRegisterUserInvalidUsernameMessage() {
         Login login = new Login();
-        String result = login.registerUser("toolongname", "Ch&&sec@ke99!", "+27838968976", "Kyle", "Smith");
+        String result = login.registerUser("toolongname", "Ch&&sec@ke99!", "+278389", "Kyle", "Smith");
         assertTrue(result.contains("Username is not correctly formatted"));
     }
 
     @Test
     public void testRegisterUserInvalidPasswordMessage() {
         Login login = new Login();
-        String result = login.registerUser("kyl_1", "weak", "+27838968976", "Kyle", "Smith");
+        String result = login.registerUser("kyl_1", "weak", "+278389", "Kyle", "Smith");
         assertTrue(result.contains("Password is not correctly formatted"));
     }
 
     @Test
     public void testRegisterUserSuccessMessage() {
         Login login = new Login();
-        String result = login.registerUser("kyl_1", "Ch&&sec@ke99!", "+27838968976", "Kyle", "Smith");
+        String result = login.registerUser("kyl_1", "Ch&&sec@ke99!", "+278389", "Kyle", "Smith");
         assertEquals("User registered successfully. Cell phone number successfully added.", result);
     }
 
     @Test
     public void testLoginUserSuccess() {
         Login login = new Login();
-        login.registerUser("kyl_1", "Ch&&sec@ke99!", "+27838968976", "Kyle", "Smith");
+        login.registerUser("kyl_1", "Ch&&sec@ke99!", "+278389", "Kyle", "Smith");
         assertTrue(login.loginUser("kyl_1", "Ch&&sec@ke99!"));
     }
 
     @Test
     public void testLoginUserFailure() {
         Login login = new Login();
-        login.registerUser("kyl_1", "Ch&&sec@ke99!", "+27838968976", "Kyle", "Smith");
+        login.registerUser("kyl_1", "Ch&&sec@ke99!", "+278389", "Kyle", "Smith");
         assertFalse(login.loginUser("kyl_1", "WrongPassword!"));
     }
 }
