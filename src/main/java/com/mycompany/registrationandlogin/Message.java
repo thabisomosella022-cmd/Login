@@ -17,18 +17,18 @@ public class Message {
     private String messageText;
     private String messageHash;
 
-    // Method 1: Ensure message ID is not more than 10 characters
+    //  Ensure message ID is not more than 10 characters
     public boolean checkMessageID(String messageID) {
         return messageID != null && messageID.length() <= 10;
     }
 
-    // Method 2: Ensure recipient cell number is no more than 10 characters and starts with an international code
+    //  Ensure recipient cell number is no more than 10 characters and starts with an international code
     public boolean checkRecipientCell(String recipientCell) {
         if (recipientCell == null) return false;
         return recipientCell.startsWith("+") && recipientCell.length() <= 10;
     }
 
-    // Method 3: Create and return the Message Hash
+    //  Create and return the Message Hash
     public String createMessageHash(String messageID, String messageText) {
         String idPart = (messageID != null && messageID.length() >= 2) ? messageID.substring(0, 2) : "00";
         
@@ -45,12 +45,12 @@ public class Message {
         return hash.toUpperCase();
     }
 
-    // Method 4: Check if message does not exceed 250 characters
+    // Check if message does not exceed 250 characters
     public boolean checkMessageLength(String messageText) {
         return messageText != null && messageText.length() <= 250;
     }
 
-    // Method 5: Print message details in required order
+    //  Print message details in required order
     public String printMessages() {
         return "Message ID: " + messageID + "\n" +
                "Message Hash: " + messageHash + "\n" +
@@ -58,12 +58,12 @@ public class Message {
                "Message: " + messageText;
     }
 
-    // Method 6: Return total number of messages sent
+    //  Return total number of messages sent
     public int returnTotalMessages() {
         return numMessagesSent;
     }
 
-    // Method 7: Process message based on user choice
+    //  Process message based on user choice
     public String sentMessage(int choice, String message) {
         switch (choice) {
             case 1:
