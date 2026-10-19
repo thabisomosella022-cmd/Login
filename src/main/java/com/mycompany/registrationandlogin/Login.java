@@ -25,7 +25,7 @@ public class Login {
         return false;
     }
 
-    // Method to check password complexity: >= 8 chars, contains a capital letter, a number, and a special character
+    // Enhanced validation check for password complexity requirements
     public boolean checkPasswordComplexity(String password) {
         if (password == null || password.length() < 8) {
             return false;
