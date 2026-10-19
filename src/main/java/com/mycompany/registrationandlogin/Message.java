@@ -17,18 +17,18 @@ public class Message {
     private String messageText;
     private String messageHash;
 
-    // Ensure message ID is not more than 10 characters[cite: 9]
+    // Ensure message ID is not more than 10 characters
     public boolean checkMessageID(String messageID) {
         return messageID != null && messageID.length() <= 10;
     }
 
-    // Ensure recipient cell number is no more than 10 characters and starts with an international code[cite: 9]
+    // Ensure recipient cell number is no more than 10 characters and starts with an international code
     public boolean checkRecipientCell(String recipientCell) {
         if (recipientCell == null) return false;
         return recipientCell.startsWith("+") && recipientCell.length() <= 10;
     }
 
-    // Create and return the Message Hash[cite: 9]
+    // Formats and generates the unique uppercase message hash string
     public String createMessageHash(String messageID, String messageText) {
         String idPart = (messageID != null && messageID.length() >= 2) ? messageID.substring(0, 2) : "00";
         
@@ -45,12 +45,12 @@ public class Message {
         return hash.toUpperCase();
     }
 
-    // Check if message does not exceed 250 characters[cite: 7, 9]
+    // Check if message does not exceed 250 characters
     public boolean checkMessageLength(String messageText) {
         return messageText != null && messageText.length() <= 250;
     }
 
-    // Print message details in required order[cite: 8, 9]
+    // Print message details in required order
     public String printMessages() {
         return "Message ID: " + messageID + "\n" +
                "Message Hash: " + messageHash + "\n" +
@@ -58,7 +58,7 @@ public class Message {
                "Message: " + messageText;
     }
 
-    // Return total number of messages sent (Named with double 'ss' per rubric requirements)[cite: 9]
+    // Return total number of messages sent (Named with double 'ss' per rubric requirements)
     public int returnTotalMessagess() {
         return numMessagesSent;
     }
@@ -68,7 +68,7 @@ public class Message {
         return numMessagesSent;
     }
 
-    // Process message based on user choice[cite: 8, 9]
+    // Process message based on user choice
     public String sentMessage(int choice, String message) {
         switch (choice) {
             case 1:
@@ -84,7 +84,7 @@ public class Message {
         }
     }
 
-    // Custom method to store the message in a JSON format as requested in the PoE instructions[cite: 8, 9]
+    // Custom method to store the message in a JSON format as requested in the PoE instructions
     public String storeMessage() {
         return "{\n" +
                "  \"messageID\": \"" + messageID + "\",\n" +
@@ -94,7 +94,7 @@ public class Message {
                "}";
     }
 
-    // Auto-generate a random 10-digit numeric ID[cite: 7]
+    // Auto-generate a random 10-digit numeric ID
     public String generateMessageID() {
         Random rand = new Random();
         long id = 1000000000L + rand.nextInt(900000000);
