@@ -4,10 +4,12 @@
  */
 package com.mycompany.registrationandlogin;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 /**
- * Message class handling message IDs, cell verification, hashing, JSON storage, and menu options.
+ * Message class handling message IDs, cell verification, hashing, JSON file storage, and menu options.
  */
 public class Message {
 
@@ -22,14 +24,14 @@ public class Message {
         return messageID != null && messageID.length() <= 10;
     }
 
-    // Ensure recipient cell number is no more than 10 characters and starts with an international code
+    // Updated cell verification allowing international formats up to 15 characters total (e.g., +27718693002)
     public boolean checkRecipientCell(String recipientCell) {
         if (recipientCell == null) return false;
-        return recipientCell.startsWith("+") && recipientCell.length() <= 10;
+        return recipientCell.startsWith("+") && recipientCell.length() <= 15;
     }
 
-    // Formats and generates the unique uppercase message hash string
-    public String createMessageHash(String messageID, String messageText) {
+    // Formats and generates the unique uppercase message hash string using the specific message index
+    public String createMessageHash(String messageID, String messageText, int messageIndex) {
         String idPart = (messageID != null && messageID.length() >= 2) ? messageID.substring(0, 2) : "00";
         
         String firstWord = "";
@@ -41,7 +43,7 @@ public class Message {
             lastWord = words[words.length - 1].replaceAll("[^a-zA-Z]", "");
         }
         
-        String hash = idPart + ":" + numMessagesSent + ":" + firstWord + lastWord;
+        String hash = idPart + ":" + messageIndex + ":" + firstWord + lastWord;
         return hash.toUpperCase();
     }
 
@@ -63,35 +65,55 @@ public class Message {
         return numMessagesSent;
     }
 
-    // Return total number of messages sent (Delegates to returnTotalMessagess to support main method calls)
     public int returnTotalMessages() {
         return numMessagesSent;
     }
 
-    // Process message based on user choice
+    // Process message based on user choice with exact required punctuation and output strings
     public String sentMessage(int choice, String message) {
         switch (choice) {
             case 1:
                 numMessagesSent++;
                 this.messageText = message;
-                return "Message successfully sent";
+                return "Message successfully sent.";
             case 2:
                 return "Press 0 to delete the message";
             case 3:
+                storeMessageToJsonFile(); // Automatically save to JSON file when stored
                 return "Message successfully stored";
             default:
                 return "Invalid option selected.";
         }
     }
 
-    // Custom method to store the message in a JSON format as requested in the PoE instructions
+    /**
+     * Stores the message into a JSON file named "messages.json".
+     * Code adapted from standard Java FileWriter tutorials (Oracle Documentation / GeeksforGeeks file handling).
+     */
+    public void storeMessageToJsonFile() {
+        String jsonContent = "{\n" +
+                "  \"messageID\": \"" + messageID + "\",\n" +
+                "  \"messageHash\": \"" + messageHash + "\",\n" +
+                "  \"recipientCell\": \"" + recipientCell + "\",\n" +
+                "  \"messageText\": \"" + messageText + "\"\n" +
+                "}";
+
+        try (FileWriter fileWriter = new FileWriter("messages.json", true)) {
+            fileWriter.write(jsonContent + "\n");
+        } catch (IOException e) {
+            System.out.println("Error saving message to JSON file: " + e.getMessage());
+        }
+    }
+
+    // Retained for backward compatibility if called without args
     public String storeMessage() {
+        storeMessageToJsonFile();
         return "{\n" +
-               "  \"messageID\": \"" + messageID + "\",\n" +
-               "  \"messageHash\": \"" + messageHash + "\",\n" +
-               "  \"recipientCell\": \"" + recipientCell + "\",\n" +
-               "  \"messageText\": \"" + messageText + "\"\n" +
-               "}";
+                "  \"messageID\": \"" + messageID + "\",\n" +
+                "  \"messageHash\": \"" + messageHash + "\",\n" +
+                "  \"recipientCell\": \"" + recipientCell + "\",\n" +
+                "  \"messageText\": \"" + messageText + "\"\n" +
+                "}";
     }
 
     // Auto-generate a random 10-digit numeric ID

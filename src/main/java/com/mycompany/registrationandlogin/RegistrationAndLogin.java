@@ -27,7 +27,7 @@ public class RegistrationAndLogin {
             System.out.print("Enter password (min 8 chars, uppercase, number, special char): ");
             String password = scanner.nextLine();
 
-            System.out.print("Enter cell phone number (e.g., +278389): ");
+            System.out.print("Enter cell phone number (e.g., +27718693002): ");
             String cellPhoneNumber = scanner.nextLine();
 
             System.out.print("Enter first name: ");
@@ -50,7 +50,7 @@ public class RegistrationAndLogin {
         boolean isLoggedIn = false;
         while (!isLoggedIn) {
             System.out.println("========================================");
-            System.out.println("       USER LOGIN AUTHENTICATION        ");
+            System.out.println("        USER LOGIN AUTHENTICATION        ");
             System.out.println("========================================");
             System.out.print("Enter username: ");
             String loginUsername = scanner.nextLine();
@@ -73,7 +73,7 @@ public class RegistrationAndLogin {
         boolean running = true;
         while (running) {
             System.out.println("\n========================================");
-            System.out.println("           QUICKCHAT MAIN MENU          ");
+            System.out.println("            QUICKCHAT MAIN MENU          ");
             System.out.println("========================================");
             System.out.println("1. Send Messages");
             System.out.println("2. Show recently sent messages (Coming Soon)");
@@ -102,7 +102,7 @@ public class RegistrationAndLogin {
                         // Recipient Cell Validation
                         String recipient;
                         while (true) {
-                            System.out.print("Enter recipient cell number (max 10 chars, must include international code like +): ");
+                            System.out.print("Enter recipient cell number (e.g., +27718693002): ");
                             recipient = scanner.nextLine();
                             if (msgManager.checkRecipientCell(recipient)) {
                                 System.out.println("Cell phone number successfully captured.");
@@ -118,7 +118,7 @@ public class RegistrationAndLogin {
                             System.out.print("Enter your message (max 250 characters): ");
                             messageContent = scanner.nextLine();
                             if (msgManager.checkMessageLength(messageContent)) {
-                                System.out.println("Message sent");
+                                // Removed premature "Message sent" print before user choice per lecturer feedback
                                 break;
                             } else {
                                 int excess = messageContent.length() - 250;
@@ -126,13 +126,13 @@ public class RegistrationAndLogin {
                             }
                         }
 
-                        // Generate ID and Hash
+                        // Generate ID and Hash (passing message index i - 1 for proper hash numbering)
                         String generatedID = msgManager.generateMessageID();
                         msgManager.setMessageID(generatedID);
                         msgManager.setRecipientCell(recipient);
                         msgManager.setMessageText(messageContent);
                         
-                        String hash = msgManager.createMessageHash(generatedID, messageContent);
+                        String hash = msgManager.createMessageHash(generatedID, messageContent, (i - 1));
                         msgManager.setMessageHash(hash);
 
                         // Message Action Sub-menu

@@ -49,14 +49,16 @@ public class Login {
 
     /**
      * Method to check cell phone number formatting.
-     * Ensures it starts with '+' and has a maximum length of 10 characters.
+     * Ensures it starts with '+' and has a maximum length of 15 characters 
+     * to properly support international numbers (such as +27718693002).
      */
     public boolean checkCellPhoneNumber(String cellPhoneNumber) {
         if (cellPhoneNumber == null) {
             return false;
         }
-        String regex = "^\\+\\d{1,9}$";
-        return Pattern.matches(regex, cellPhoneNumber) && cellPhoneNumber.length() <= 10;
+        // Allows + followed by up to 14 digits, with total length <= 15
+        String regex = "^\\+\\d{1,14}$";
+        return Pattern.matches(regex, cellPhoneNumber) && cellPhoneNumber.length() <= 15;
     }
 
     // Register user method incorporating username, password, cell phone, and names

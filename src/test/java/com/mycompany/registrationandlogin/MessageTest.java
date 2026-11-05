@@ -15,10 +15,8 @@ public class MessageTest {
     @Test
     public void testCheckMessageLengthFailure() {
         Message msg = new Message();
-        // Create a string longer than 250 characters
         String longMsg = "A".repeat(260);
         assertFalse(msg.checkMessageLength(longMsg));
-        
         int excess = longMsg.length() - 250;
         assertEquals(10, excess);
     }
@@ -26,7 +24,8 @@ public class MessageTest {
     @Test
     public void testCheckRecipientCellValid() {
         Message msg = new Message();
-        assertTrue(msg.checkRecipientCell("+27718693002") || msg.checkRecipientCell("+277186"));
+        // Tests exact real South African number format from test data
+        assertTrue(msg.checkRecipientCell("+27718693002"));
     }
 
     @Test
@@ -36,13 +35,22 @@ public class MessageTest {
     }
 
     @Test
-    public void testCreateMessageHash() {
+    public void testCreateMessageHashExact() {
         Message msg = new Message();
         msg.setMessageID("0012345678");
-        String hash = msg.createMessageHash("0012345678", "Hi Mike, can you join us for dinner tonight?");
+        // Test Case 1 data: ID starting with 00, index 0, message "Hi Mike, can you join us for dinner tonight?"
+        String hash = msg.createMessageHash("0012345678", "Hi Mike, can you join us for dinner tonight?", 0);
+        assertEquals("00:0:HITONIGHT", hash);
+    }
+
+    @Test
+    public void testHashLoopGeneration() {
+        Message msg = new Message();
+        // Testing loop increment for hash generation across multiple messages
+        String hash1 = msg.createMessageHash("1234567890", "Hello world test", 0);
+        String hash2 = msg.createMessageHash("1234567890", "Another message here", 1);
         
-        // Expected format based on rules: [First 2 ID digits]:[Num sent]:[FIRSTWORDLASTWORD]
-        assertTrue(hash.startsWith("00:"));
-        assertTrue(hash.contains("HIMIZE") || hash.contains("HITONIGHT") || hash.contains("HIMAKE"));
+        assertEquals("12:0:HELLOTEST", hash1);
+        assertEquals("12:1:ANOTHERHERE", hash2);
     }
 }
