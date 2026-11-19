@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.registrationandlogin;
 
 import java.util.regex.Pattern;
 
 /**
- * Login class handling user registration, credential validation, 
+ * Login class handling user registration, credential validation,
  * cell phone verification, and login status messaging.
  */
 public class Login {
@@ -49,14 +45,13 @@ public class Login {
 
     /**
      * Method to check cell phone number formatting.
-     * Ensures it starts with '+' and has a maximum length of 15 characters 
+     * Ensures it starts with '+' and has a maximum length of 15 characters
      * to properly support international numbers (such as +27718693002).
      */
     public boolean checkCellPhoneNumber(String cellPhoneNumber) {
         if (cellPhoneNumber == null) {
             return false;
         }
-        // Allows + followed by up to 14 digits, with total length <= 15
         String regex = "^\\+\\d{1,14}$";
         return Pattern.matches(regex, cellPhoneNumber) && cellPhoneNumber.length() <= 15;
     }
@@ -72,13 +67,13 @@ public class Login {
         if (!checkCellPhoneNumber(cellPhoneNumber)) {
             return "Cell phone number incorrectly formatted or does not contain international code.";
         }
-        
+
         this.username = username;
         this.password = password;
         this.cellPhoneNumber = cellPhoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-        
+
         return "User registered successfully. Cell phone number successfully added.";
     }
 
